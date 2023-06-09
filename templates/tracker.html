@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+<input type="text" id="dValue" style="display: none" value="{{ dValue  }}">
+<input type="text" id="dLabel" style="display: none" value="{{ dLabel  }}">
+
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <div class="col-sm-12 col-md-6 col-xl-4">
+      <div class="h-100 bg-secondary rounded p-4">
+        <h1>
+          {{tkr.name}}
+        </h1>
+        <h5>
+          Info:
+        </h5>
+        <ul>
+          <li>Type : {{tkr.type}}</li>
+          <li>Description : </li>
+        </ul>
+        <div class="border rounded p-2 mb-4">
+          {% if tkr.description %}
+          <p>{{tkr.description}}</p>
+          {% else %}
+          <p>No Description</p>
+          {% endif %}
+
+        </div>
+        <h5>
+          Stats:
+        </h5>
+        <ul>
+          <li>Total Logs: {{tkr.logs|length}}</li>
+        </ul>
+
+        <div class="m-n2">
+          <button type="button" class="btn btn-sm btn-primary dropdown-toggle ms-2 me-2 mt-2" data-bs-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
+          </button>
+          <div class="dropdown-menu  bg-light border-0">
+            <a class="dropdown-item" href="/updateTracker/{{tkr.id}}">Update Tracker</a>
+            <a class="dropdown-item" href="/deleteTracker/{{tkr.id}}">DeleteTracker</a>
+          </div>
+          <a class="btn btn-sm  btn-primary ms-6 mt-2" href="/addLog/{{tkr.id}}"><i
+              class="bi bi-pencil-square me-2"></i>Add Log</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-xl-8">
+      <div class="bg-secondary rounded h-100 p-4">
+        <h6 class="mb-4">Log Values</h6>
+        {% if tkr.type=="Boolean" or tkr.type=="Multiple Choice" %}
+        {{dict}}
+        {% endif %}
+        <canvas id="line-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid pt-5 px-4">
+  <div class="row g-4">
+    <div class="col-12">
+      <div class="bg-secondary rounded h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="mb-0">Recent {{tkr.name}} Logs</h6>
+          <a href="/showAllLogs/{{tkr.id}}">Show All</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Tracker Name</th>
+                <th scope="col">Value</th>
+                <th scope="col">ID</th>
+                <th scope="col">TimeStamp</th>
+                <th scope="col">Note</th>
+                <th scope="col">Edit/Delete</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in tkr.logs|reverse %}
+
+              <tr>
+                <td>{{tkr.name}}</td>
+                <td>{{log.value}}</td>
+                <td>{{log.id}}</td>
+                <td>{{log.time}}</td>
+                <td>{{log.note}}</td>
+                <td>
+
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      Edit/Delete
+                    </button>
+                    <div class="dropdown-menu  bg-light border-0">
+                      <a class="dropdown-item" href="/updateLog/{{log.id}}">Edit</a>
+                      <a class="dropdown-item" href="/deleteLog/{{log.id}}">Delete</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

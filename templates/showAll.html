@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if tkr==-1 %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded h-100 p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">All Trackers</h6>
+        </div>
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+            <thead>
+                <tr class="text-white">
+                    <th scope="col">Name</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tracker in user.trackers %}
+                <tr>
+                    <td>{{tracker.name}}</td>
+                    <td>{{tracker.id}}</td>
+                    <td>{{tracker.type}}</td>
+                    <td>{{tracker.description}}</td>
+                    <td><a class="btn btn-sm btn-primary" href="/tracker/{{tracker.id}}">Detail</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% elif tkr==-2 %}
+
+
+<div class="container-fluid pt-5 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">All Logs</h6>
+
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tracker ID</th>
+                            <th scope="col">Value</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">TimeStamp</th>
+                            <th scope="col">Note</th>
+                            <th scope="col">Edit/Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in user.logs %}
+
+                        <tr>
+                            <td>{{log.tracker_id}}</td>
+                            <td>{{log.value}}</td>
+                            <td>{{log.id}}</td>
+                            <td>{{log.time}}</td>
+                            <td>{{log.note}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Edit/Delete
+                                    </button>
+                                    <div class="dropdown-menu  bg-light border-0">
+                                        <a class="dropdown-item" href="/updateLog/{{log.id}}">Edit</a>
+                                        <a class="dropdown-item" href="/deleteLog/{{log.id}}">Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+
+<div class="container-fluid pt-5 px-4">
+    <div class="row g-4">
+      <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">All {{tkr.name}} Logs</h6>
+          </div>
+          <div class="table">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Tracker Name</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">TimeStamp</th>
+                  <th scope="col">Note</th>
+                  <th scope="col">Edit/Delete</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                {% for log in tkr.logs %}
+                <tr>
+                  <td>{{tkr.name}}</td>
+                  <td>{{log.value}}</td>
+                  <td>{{log.id}}</td>
+                  <td>{{log.time}}</td>
+                  <td>{{log.note}}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Edit/Delete
+                      </button>
+                      <div class="dropdown-menu  bg-light border-0">
+                        <a class="dropdown-item" href="/updateLog/{{log.id}}">Edit</a>
+                        <a class="dropdown-item" href="/deleteLog/{{log.id}}">Delete</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}   
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endif %}
+
+{% endblock body %}

@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+<!-- Chart Start -->
+<input type="text" id="valuesList" style="display: none" value="{{ values  }}">
+<input type="text" id="labelsList" style="display: none" value="{{ labels  }}">
+<input type="text" id="typeList" style="display: none" value="{{ type  }}">
+<input type="text" id="countList" style="display: none" value="{{ count  }}">
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Most Used Trackers</h6>
+                <canvas id="bar-chart"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded d-flex align-items-center h-100 p-4 ">
+                <h6 class="mb-4">Tracker Types</h6>
+                <p class="text-center mb-0">
+                    <canvas id="doughnut-chart"></canvas>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chart End -->
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="h-100 bg-secondary rounded justify-content-center align-items-center p-4">
+                <h1>
+                    {{user.name}}
+                </h1>
+                <h5>
+                    Info:
+                </h5>
+                <ul>
+                    <li>user_id: {{user.id}}</li>
+                    <li>Email : {{user.email}}</li>
+                </ul>
+                <h5>
+                    Stats:
+                </h5>
+                <ul>
+                    <li>Total Trackers: {{user.trackers|count}}</li>
+                    <li>Total Logs: {{user.logs|length}}</li>
+                    <li>Last Log: </li>
+                    <div class="border rounded p-2 mt-1">
+                        {% if user.logs[-1] %}
+                        <ul>
+                            <li>tracker id: {{user.logs[-1].tracker_id}}</li>
+                            <li>value: {{user.logs[-1].value}}</li>
+                            <li>{{user.logs[-1].time}}</li>
+                        </ul>
+                        {% else %}
+                        <p>No Logs</p>
+                        {% endif %}
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="h-100 bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="mb-0">Recent Trackers</h6>
+                    <a href="/showAllTrackers">Show All</a>
+                </div>
+                <div class="table-responsive-sm">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-white">
+                                <th scope="col">Name</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tracker in user.trackers[-6:]|reverse %}
+                            <tr>
+                                <td>{{tracker.name}}</td>
+                                <td>{{tracker.id}}</td>
+                                <td>{{tracker.type}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a class="btn btn-sm btn-outline-primary mt-3" href="/addTracker">ADD<i
+                            class="fa fa-plus-square ms-2"></i></a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="h-100 bg-secondary rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="mb-0">Recent Logs</h6>
+                    <a href="/showAllLogs">Show All</a>
+                </div>
+                <div class="table-responsive-sm">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-white">
+                                <th scope="col">Value</th>
+                                <th scope="col">id</th>
+                                <th scope="col">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for l in user.logs[-6:]|reverse %}
+                            <tr>
+                                <td>{{l.value}}</td>
+                                <td>{{l.id}}</td>
+                                <td>{{l.time[:19]}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        {% for tkr in user.trackers|reverse %}
+        <div class="col-sm-6 col-xl-3">
+            <div class="row g-2 bg-secondary rounded d-flex align-items-start justify-item-start pt-2 ps-3  pb-2">
+                <a href="/tracker/{{tkr.id}}">
+                    <span class=" d-inline-flex"> <i class="fa fa-chart-line fa-2x text-primary me-3"></i>
+                        <h3>{{tkr.name}}</h3>
+                    </span>
+                </a>
+                <div class=" ">
+                    <a href="/addLog/{{tkr.id}}">
+                        <h6 class="mb-0 me-5">Last Log : </h6>
+                    </a>
+                    <ul>
+                        {% if tkr.logs|last %}
+                        <li>{{(tkr.logs|last).value}}</li>
+                        <li>{{(tkr.logs|last).time[:19]}}</li>
+                        {% else %}
+                        <li>No Log</li>
+                        <li>Not Applicable
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock body %}

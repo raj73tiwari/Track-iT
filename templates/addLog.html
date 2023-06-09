@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+<div class="container-fluid pt-4 px-14">
+    <div class="row g-2">
+        <div class="col-sm-6 col-xl-2">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x  text-primary"></i>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-10">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4 ">
+                <p class="text-center mb-0">
+                <h1 class="mb-0 ">CREATE LOG : {{tkr.name}} </h1>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-3 px-14">
+    <div class="bg-secondary rounded h-100 p-4">
+        <h6 class="mb-4">Fill Log Details</h6>
+        <form method="POST">
+
+            {% if tkr.type=='Boolean' %}
+
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-2 pt-0">Value</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="value" id="gridRadios1" value="True" checked>
+                        <label class="form-check-label" for="gridRadios1">
+                            True
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="value" id="gridRadios2" value="False">
+                        <label class="form-check-label" for="gridRadios2">
+                            False
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            {% elif tkr.type=='Numerical' %}
+            <div class="form-floating mb-4">
+                <input type="number" step=".01" class="form-control" id="floatingInput" name="value"
+                    placeholder="value">
+                <label for="floatingInput">Numerical Value</label>
+            </div>
+
+            {% elif tkr.type=='Time Duration' %}
+
+            <div class="form-floating mb-4">
+                <input type="time" class="form-control" id="floatingInput" name="value" placeholder="time">
+                <label for="floatingInput">Time Duration (HH:MM)</label>
+            </div>
+
+            {% else %}
+            <legend class="col-form-label col-sm-2 pt-0">Value :</legend>
+            {% for set in (tkr.settings).split(",") %}
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="value" id="inlineRadio1" value={{set}}>
+                <label class="form-check-label" for="inlineRadio1">{{set}}</label>
+            </div>
+            {% endfor %}
+
+            {% endif %}
+            <div class="form-floating mb-4 mt-4">
+            </div>
+            <div class="row mb-3">
+                <label for="timee" class="col-sm-2 col-form-label">Date Time:</label>
+                <div class="col-sm-10">
+                    <input type="datetime-local" id="timee" name="time" value={{time}}>
+
+                </div>
+            </div>
+            <div class="form-floating mb-4">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" name="note"
+                    style="height: 100px;"></textarea>
+                <label for="floatingTextarea">Note</label>
+            </div>
+            <div class="m-n2">
+                <p class="text-center mb-0"> <button class="btn btn-primary w-50 m-2" type="submit"><i
+                            class="bi bi-pencil-square me-2"></i>CREATE LOG</button>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock body %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+<div class="container-fluid pt-4 px-14">
+    <div class="row g-2">
+        <div class="col-sm-6 col-xl-2">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x  text-primary"></i>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-10">
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4 ">
+                <p class="text-center mb-0">
+                <h1 class="mb-0 ">CREATE NEW TRACKER </h1>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid pt-3 px-14">
+    <div class="bg-secondary rounded h-100 p-4">
+        <h6 class="mb-4">Enter Tracker Details</h6>
+        <form method="POST">
+            <div class="form-floating mb-4">
+                <input type="text" class="form-control" id="floatingInput" name="name" placeholder="Name">
+                <label for="floatingInput">Tracker Name</label>
+            </div>
+            <div class="form-floating mb-4">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="type">
+                    <option value="Numerical">Numerical</option>
+                    <option value="Time Duration">Time Duration</option>
+                    <option value="Multiple Choice">Multiple Choice</option>
+                    <option value="Boolean">Boolean</option>
+                </select>
+                <label for="floatingSelect">Tacker Type</label>
+            </div>
+            <div class="form-floating mb-4">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                    name="description" style="height: 150px;"></textarea>
+                <label for="floatingTextarea">Description</label>
+            </div>
+            <div class="form-floating mb-4">
+                <input type="Setting" class="form-control" id="floatingSetting" name="setting" placeholder="Setting">
+                <label for="floatingSetting">Settings</label>
+            </div>
+            <div class="m-n2">
+                <p class="text-center mb-0"> <button class="btn btn-primary w-50 m-2" type="submit"><i
+                            class="bi bi-cloud-check-fill me-2"></i>CREATE</button></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock body %}
